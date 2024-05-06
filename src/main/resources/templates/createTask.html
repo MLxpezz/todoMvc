@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nuevo usuario</title>
+    <link rel="stylesheet" type="text/css" href="/output.css" />
+  </head>
+  <body>
+    <header
+      class="font-extrabold text-white text-4xl h-60 w-screen bg-primary-color flex items-center justify-center"
+    >
+      TODO APP
+    </header>
+
+    <form
+      method="post"
+      enctype="multipart/form-data"
+      class="bg-white flex flex-col items-center justify-between text-primary-color w-[80%] h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7"
+    >
+      <h3 class="text-xl mt-5">Nueva Tarea</h3>
+
+      <div
+        class="w-[80%] flex flex-col place-content-center mb-16 gap-3 text-xs"
+      >
+        <input
+          class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 focus:outline-color-task"
+          type="text"
+          name="title"
+          placeholder="Titulo:"
+        />
+        <input
+        class="bg-bg-inputs rounded-md outline-color-task resize-none p-2 placeholder:text-primary-color placeholder:p-0"
+        name="description"
+        placeholder="Descripcion:"
+        type="text"
+        >
+        <button
+          class="bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
+          type="submit"
+        >
+          Crear tarea
+        </button>
+        <button
+          class="bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
+        >
+          <a th:href="@{/tasks}">Cancelar</a>
+        </button>
+      </div>
+    </form>
+  </body>
+</html>

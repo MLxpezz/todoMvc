@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nuevo usuario</title>
+    <link rel="stylesheet" type="text/css" href="/output.css" />
+  </head>
+  <body>
+    <header
+      class="font-extrabold text-white text-4xl h-60 w-screen bg-primary-color flex items-center justify-center"
+    >
+      TODO APP
+    </header>
+
+    <form
+      action="/users/login"
+      method="post"
+      enctype="multipart/form-data"
+      class="bg-white flex flex-col items-center justify-between text-primary-color w-[80%] h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7"
+    >
+      <h3 class="text-xl mt-5">Iniciar Sesion</h3>
+
+      <div class="w-[80%] flex flex-col place-content-center mb-16 gap-3 text-xs">
+        <input
+          class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 focus:outline-color-task"
+          type="text"
+          name="username"
+          placeholder="Usuario:"
+        />
+        <input
+          class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 outline-color-task"
+          type="password"
+          placeholder="Contraseña:"
+        />
+        <button
+          class="bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
+          type="submit"
+        >
+          Aceptar
+        </button>
+        <div>
+          <p class="mb-2">¿Olvidaste tu contraseña?</p>
+          <p>¿No tienes cuenta? <strong>Registrate!</strong></p>
+        </div>
+      </div>
+    </form>
+
+    <!-- <form method="post" th:object="${userEntity}" enctype="multipart/form-data">
+        <label for="username">Username</label>
+        <input type="text" placeholder="Username" th:field="${userEntity.username}">
+        <label for="password">Password</label>
+        <input type="password" th:field="${userEntity.password}">
+        <button type="submit">Aceptar</button>
+    </form> -->
+  </body>
+</html>
