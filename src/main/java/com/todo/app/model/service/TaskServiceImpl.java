@@ -69,12 +69,12 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public TaskDto createTask(TaskDto taskDto) {
 
-        UserEntity userEntity = userRepository.findById(taskDto.userId()).get();
+        UserEntity userEntity = userRepository.findById(taskDto.getUserId()).get();
 
         TaskEntity taskEntity2 = TaskEntity
         .builder()
-        .title(taskDto.title())
-        .description(taskDto.description())
+        .title(taskDto.getTitle())
+        .description(taskDto.getDescription())
         .createdAt(LocalDate.now())
         .isCompleted(false)
         .userTask(userEntity)

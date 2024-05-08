@@ -14,7 +14,7 @@
     </header>
 
     <form
-      action="/users/login"
+      th:action="@{/users/login}"
       method="post"
       enctype="multipart/form-data"
       class="bg-white flex flex-col items-center justify-between text-primary-color w-[80%] h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7"
@@ -41,7 +41,7 @@
         </button>
         <div>
           <p class="mb-2">¿Olvidaste tu contraseña?</p>
-          <p>¿No tienes cuenta? <strong>Registrate!</strong></p>
+          <p>¿No tienes cuenta? <strong><a th:href="@{/users/register}">Registrate!</a></strong></p>
         </div>
       </div>
     </form>

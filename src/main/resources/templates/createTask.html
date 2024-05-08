@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,27 +14,29 @@
     </header>
 
     <form
+      th:action="@{/tasks/create}"
       method="post"
-      enctype="multipart/form-data"
+      th:object="${taskDto}"
       class="bg-white flex flex-col items-center justify-between text-primary-color w-[80%] h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7"
     >
       <h3 class="text-xl mt-5">Nueva Tarea</h3>
-
       <div
         class="w-[80%] flex flex-col place-content-center mb-16 gap-3 text-xs"
       >
         <input
           class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 focus:outline-color-task"
           type="text"
-          name="title"
           placeholder="Titulo:"
+          th:field="*{title}"
         />
+        <p th:if="${#fields.hasErrors('title')}" class="text-red-400" th:errors="*{title}">blabla</p>
         <input
         class="bg-bg-inputs rounded-md outline-color-task resize-none p-2 placeholder:text-primary-color placeholder:p-0"
-        name="description"
         placeholder="Descripcion:"
         type="text"
+        th:field="*{description}"
         >
+        <p th:if="${#fields.hasErrors('description')}" class="text-red-400" th:errors="*{description}">asdsad</p>
         <button
           class="bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
           type="submit"

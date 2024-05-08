@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -47,7 +48,7 @@ public class UserEntity {
     private boolean credentialsNoExpired;
 
     @JsonIgnoreProperties({"userTask"})
-    @OneToMany(targetEntity = TaskEntity.class, fetch = FetchType.LAZY, mappedBy = "userTask")
+    @OneToMany(targetEntity = TaskEntity.class, fetch = FetchType.LAZY, mappedBy = "userTask", cascade = CascadeType.ALL)
     List<TaskEntity> taskList;
 
 }

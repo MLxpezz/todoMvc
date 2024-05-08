@@ -14,22 +14,38 @@
 
       <nav class="text-xs text-center">
         <ul class="flex flex-col gap-3">
-          <li th:text="${'Mi usuario: '}+${session.userDto.username}" class="border-y border-y-color-task"></li>
+          <li
+            th:text="${'Mi usuario: '}+${userFinal.username}"
+            class="border-y border-y-color-task"
+          ></li>
           <li class="border-y border-y-color-task">Mi cuenta</li>
-          <li class="bg-color-task p-1">Cerrar sesion</li>
+          <li class="bg-color-task p-1">
+            <a th:href="@{/users/login}">Cerrar sesion</a>
+          </li>
         </ul>
       </nav>
     </header>
 
     <main class="text-center">
       <button class="bg-color-task p-1 text-white mt-2 text-xs w-36">
-        <a th:href="@{/tasks/create}">
-          crear tarea
-        </a>
+        <a th:href="@{/tasks/create}"> crear tarea </a>
       </button>
-      <p th:if="${session.userDto.list.size() > 0}" class="text-color-task text-sm mt-5 mb-5">Tareas completadas: 1</p>
-      <p th:if="${session.userDto.list.size() == 0}" class="text-color-task text-sm mt-5 mb-5">Aun no existe ninguna tarea :C</p>
-      <!-- <section class="w-4/5 flex flex-wrap text-xs justify-center m-auto">
+      <p
+        th:if="${userFinal.list.size() > 0}"
+        class="text-color-task text-sm mt-5 mb-5"
+      >
+        Tareas completadas: 1
+      </p>
+      <p
+        th:if="${userFinal.list.size() == 0}"
+        class="text-color-task text-sm mt-5 mb-5"
+      >
+        Aun no existe ninguna tarea :C
+      </p>
+      <section
+        class="w-4/5 flex flex-wrap text-xs justify-center m-auto"
+        th:if="${userFinal.list.size() > 0}"
+      >
         <span class="flex-1 text-color-task bg-white p-1">
           Tareas incompletas
         </span>
@@ -44,37 +60,20 @@
         </span>
       </section>
       <section class="w-4/5 m-auto mt-5 grid grid-cols-2 gap-3">
-        <article class="bg-white flex flex-col text-xs  rounded-br-md">
+        <article
+          class="bg-white flex flex-col text-xs rounded-br-md w-full break-words"
+          th:if="${userFinal.list.size() > 0}"
+          th:each="task : ${userFinal.list}"
+        >
           <span class="bg-color-task text-white font-bold p-1 rounded-tl-md">
-            <p class="font-extrabold text-white">
-              Pasear al perro
-            </p>
+            <p class="font-extrabold text-white" th:text="${task.title}"></p>
           </span>
-          <p class="text-color-task text-left p-3">
-            Salir con el perro 1h alas 12pm
-          </p>
+          <p
+            class="text-color-task text-left p-3"
+            th:text="${task.description}"
+          ></p>
         </article>
-        <article class="bg-white flex flex-col text-xs  rounded-br-md">
-          <span class="bg-color-task text-white font-bold p-1 rounded-tl-md">
-            <p class="font-extrabold text-white">
-              Pasear al perro
-            </p>
-          </span>
-          <p class="text-color-task text-left p-3">
-            Salir con el perro 1h alas 12pm
-          </p>
-        </article>
-        <article class="bg-white flex flex-col text-xs rounded-br-md">
-          <span class="bg-color-task text-white font-bold p-1 rounded-tl-md">
-            <p class="font-extrabold text-white">
-              Pasear al perro
-            </p>
-          </span>
-          <p class="text-color-task text-left p-3">
-            Salir con el perro 1h alas 12pm
-          </p>
-        </article>
-      </section> -->
+      </section>
     </main>
 
     <!-- <form method="post" th:object="${userEntity}" enctype="multipart/form-data">

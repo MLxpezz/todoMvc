@@ -14,8 +14,8 @@
     </header>
 
     <form
+      th:action="@{/users/register}"
       method="post"
-      th:object="${userEntity}"
       enctype="multipart/form-data"
       class="bg-white flex flex-col items-center justify-between text-primary-color w-[80%] h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7"
     >
@@ -26,13 +26,13 @@
           class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 focus:outline-color-task"
           type="text"
           placeholder="Usuario:"
-          th:field="${userEntity.username}"
+          name="username"
         />
         <input
           class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 outline-color-task"
           type="password"
           placeholder="Contraseña:"
-          th:field="${userEntity.password}"
+          name="password"
         />
         <button
           class="bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
@@ -41,7 +41,7 @@
           Aceptar
         </button>
         <div>
-          <p>¿Ya tienes cuenta? <strong>Inicia sesion!</strong></p>
+          <p>¿Ya tienes cuenta? <strong><a th:href="@{/users/login}">Inicia sesion!</a></strong></p>
         </div>
       </div>
     </form>
