@@ -1,23 +1,29 @@
 package com.todo.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.todo.app.model.entities.dto.TaskDto;
 import com.todo.app.model.entities.dto.UserDto;
 import com.todo.app.model.service.TaskService;
 import com.todo.app.model.service.UserService;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 
+
 @Controller
+@RequestMapping("/tasks")
 public class TasksController {
 
     @Autowired
@@ -26,36 +32,102 @@ public class TasksController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/tasks")
-    public String getTasks(HttpSession session, Model model) {
-        UserDto userDto = (UserDto) session.getAttribute("userDto");
-        
-        UserDto userEntity = userService.getUser(userDto.getId());
-        model.addAttribute("userFinal", userEntity);
-
+    @GetMapping({"/", ""})
+    public String getTasks(Model model) {
+        int taskComplete = 0;
+        model.addAttribute("countTaskComplete", taskComplete);
         return "tasks";
     }
 
-    @GetMapping("/tasks/create")
+    @GetMapping("/create")
     public String createTaskForm(Model model) {
         model.addAttribute("taskDto", new TaskDto());
         return "createTask";
     }
 
-    @PostMapping("/tasks/create")
-    public String createTask(HttpSession session, Model model, @Valid @ModelAttribute("taskDto") TaskDto taskDto, BindingResult result) {
+    @PostMapping("/create")
+    public String createTask(@Valid @ModelAttribute("taskDto") TaskDto taskDto, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             return "createTask";
         }
-    
-        UserDto userDto = (UserDto) session.getAttribute("userDto");
-        taskDto.setUserId(userDto.getId());
+
         taskService.createTask(taskDto);
 
         return "redirect:/tasks";
     }
 
+
+    @GetMapping("/edit")
+    public String editTaskForm(@RequestParam(name = "id", required = true)  Long id, Model model) {
+
+        try {
+            TaskDto taskDto = taskService.getTask(id);
+
+            model.addAttribute("taskDto", taskDto);
+
+        } catch (Exception e) {
+            System.out.println("AIUDA:" + e.getMessage());
+            return "redirect:/tasks";
+        }
+
+        return "editTask";
+    }
+
+    @PostMapping("/edit")
+    public String editTask(@RequestParam(name = "id", required = true) Long id,
+                            @Valid @ModelAttribute TaskDto taskDto,
+                            BindingResult result) {
+        try {
+
+            if(result.hasErrors()) {
+                return "/editTask";
+            }
+
+            taskService.updateTask(id, taskDto);
+            
+        } catch (Exception e) {
+            System.out.println("AIUDA: " + e.getMessage());
+        }
+        
+        return "redirect:/tasks";
+    }
+
+    @GetMapping("/delete")
+    public String deleteTasks(@RequestParam("id") Long id) {
+        try {
+            taskService.deleteTask(id);
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+        return "redirect:/tasks";
+    }
+
+    @GetMapping("/deleteTasks")
+    public String deleteAllTasks(@RequestParam Long id) {
+        taskService.deleteAllTasks(id);
+        return "redirect:/tasks";
+    }
     
     
+    @ModelAttribute("userFinal")
+    public UserDto userProvider() {
+
+        UserDto userDto = null;
+
+        try {
+
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            if(authentication != null && authentication.isAuthenticated()) {
+                User user = (User) authentication.getPrincipal();
+                userDto = userService.getUserByUsername(user.getUsername());
+            } 
+
+        } catch (Exception e) {
+            System.out.println("AIUDA: " + e.getMessage());
+        }
+
+        return userDto;
+    }
 }

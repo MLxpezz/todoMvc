@@ -2,8 +2,6 @@ package com.todo.app.model.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,9 +19,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
 @Data
 @Builder
+@Table(name = "users")
 public class UserEntity {
 
     @Id
@@ -47,8 +45,7 @@ public class UserEntity {
     @Column(name = "credentials_no_expired")
     private boolean credentialsNoExpired;
 
-    @JsonIgnoreProperties({"userTask"})
-    @OneToMany(targetEntity = TaskEntity.class, fetch = FetchType.LAZY, mappedBy = "userTask", cascade = CascadeType.ALL)
-    List<TaskEntity> taskList;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "userTask")
+    private List<TaskEntity> taskList;
 
 }

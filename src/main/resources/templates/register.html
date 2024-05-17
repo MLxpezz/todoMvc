@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nuevo usuario</title>
+    <title>Registrarse</title>
     <link rel="stylesheet" type="text/css" href="/output.css" />
   </head>
   <body>
@@ -17,6 +17,7 @@
       th:action="@{/users/register}"
       method="post"
       enctype="multipart/form-data"
+      th:object="${loginRequest}"
       class="bg-white flex flex-col items-center justify-between text-primary-color w-[80%] h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7"
     >
       <h3 class="text-xl mt-5">Registrarse</h3>
@@ -27,13 +28,18 @@
           type="text"
           placeholder="Usuario:"
           name="username"
+          th:field="*{username}"
         />
+        <p th:text="${message}" class="text-red-400"></p>
+        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-red-400"></p>
         <input
           class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 outline-color-task"
           type="password"
           placeholder="Contraseña:"
           name="password"
+          th:field="*{password}"
         />
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-400"></p>
         <button
           class="bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
           type="submit"
@@ -45,13 +51,5 @@
         </div>
       </div>
     </form>
-
-    <!-- <form method="post" th:object="${userEntity}" enctype="multipart/form-data">
-        <label for="username">Username</label>
-        <input type="text" placeholder="Username" th:field="${userEntity.username}">
-        <label for="password">Password</label>
-        <input type="password" th:field="${userEntity.password}">
-        <button type="submit">Aceptar</button>
-    </form> -->
   </body>
 </html>

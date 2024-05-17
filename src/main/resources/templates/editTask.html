@@ -14,13 +14,13 @@
     </header>
 
     <form
-      th:action="@{/tasks/create}"
+      th:action="@{/tasks/edit}"
       method="post"
       th:object="${taskDto}"
       class="bg-white flex flex-col items-center justify-between text-primary-color w-[80%] h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7"
     >
       <h3 class="text-xl mt-5">Nueva Tarea</h3>
-      <input type="hidden" name="userId" th:value="${userFinal.id}" />
+      <input type="hidden" name="id" th:value="${taskDto.id}" />
       <div
         class="w-[80%] flex flex-col place-content-center mb-16 gap-3 text-xs"
       >
@@ -30,24 +30,24 @@
           placeholder="Titulo:"
           th:field="*{title}"
         />
-        <p th:if="${#fields.hasErrors('title')}" class="text-red-400" th:errors="*{title}">blabla</p>
+        <p th:if="${#fields.hasErrors('title')}" class="text-red-400" th:errors="*{title}"></p>
         <input
         class="bg-bg-inputs rounded-md outline-color-task resize-none p-2 placeholder:text-primary-color placeholder:p-0"
         placeholder="Descripcion:"
         type="text"
         th:field="*{description}"
         >
-        <p th:if="${#fields.hasErrors('description')}" class="text-red-400" th:errors="*{description}">asdsad</p>
+        <p th:if="${#fields.hasErrors('description')}" class="text-red-400" th:errors="*{description}"></p>
         <button
           class="bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
           type="submit"
         >
-          Crear tarea
+          Aceptar
         </button>
         <button
-          class="flex bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
+          class="bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
         >
-          <a class="w-full h-full" th:href="@{/tasks}">Cancelar</a>
+          <a th:href="@{/tasks}">Cancelar</a>
         </button>
       </div>
     </form>

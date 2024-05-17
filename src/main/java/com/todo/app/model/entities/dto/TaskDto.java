@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class TaskDto {
+
+    private Long id;
     
     @NotBlank(message = "El campo titulo es requerido.")
     private String title;
@@ -20,9 +22,9 @@ public class TaskDto {
     @NotBlank(message = "El campo descripcion es requerido.")
     private String description;
 
-    private Long userId;
-
     private LocalDate createdAt;
 
     private boolean isCompleted;
+
+    private Long userId;
 }

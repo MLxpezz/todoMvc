@@ -3,6 +3,7 @@ package com.todo.app.model.service;
 import java.util.List;
 
 import com.todo.app.model.entities.UserEntity;
+import com.todo.app.model.entities.dto.LoginRequest;
 import com.todo.app.model.entities.dto.UserDto;
 
 public interface UserService {
@@ -17,6 +18,6 @@ public interface UserService {
 
     String deleteUser(Long id);
 
-    UserDto createUser(UserEntity usereEntity);
+    void createUser(LoginRequest loginRequest);
 
 }

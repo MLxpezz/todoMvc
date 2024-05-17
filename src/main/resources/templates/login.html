@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nuevo usuario</title>
+    <title>Iniciar Sesion</title>
     <link rel="stylesheet" type="text/css" href="/output.css" />
   </head>
   <body>
@@ -21,6 +21,11 @@
     >
       <h3 class="text-xl mt-5">Iniciar Sesion</h3>
 
+      <p th:if="${param.error}" class="text-red-400 text-xs">
+        Usuario o contraseña incorrectos.</p>
+      <p th:if="${param.logout}" class="text-red-400 text-xs">
+        Has cerrado sesion correctamente.</p>
+
       <div class="w-[80%] flex flex-col place-content-center mb-16 gap-3 text-xs">
         <input
           class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 focus:outline-color-task"
@@ -31,6 +36,7 @@
         <input
           class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 outline-color-task"
           type="password"
+          name="password"
           placeholder="Contraseña:"
         />
         <button
@@ -45,13 +51,5 @@
         </div>
       </div>
     </form>
-
-    <!-- <form method="post" th:object="${userEntity}" enctype="multipart/form-data">
-        <label for="username">Username</label>
-        <input type="text" placeholder="Username" th:field="${userEntity.username}">
-        <label for="password">Password</label>
-        <input type="password" th:field="${userEntity.password}">
-        <button type="submit">Aceptar</button>
-    </form> -->
   </body>
 </html>

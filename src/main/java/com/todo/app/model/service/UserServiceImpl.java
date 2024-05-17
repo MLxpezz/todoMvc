@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.todo.app.model.entities.UserEntity;
+import com.todo.app.model.entities.dto.LoginRequest;
 import com.todo.app.model.entities.dto.UserDto;
 import com.todo.app.model.repository.UserRepository;
 import com.todo.app.model.utils.UserMapper;
@@ -17,6 +19,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired 
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> getUsers() {
@@ -67,11 +72,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto createUser(UserEntity userEntity) {
+    public void createUser(LoginRequest loginRequest) {
         UserEntity newUser = UserEntity
         .builder()
-        .username(userEntity.getUsername())
-        .password(userEntity.getPassword())
+        .username(loginRequest.username())
+        .password(passwordEncoder.encode(loginRequest.password()))
         .accountNoBlocked(true)
         .accountNoExpired(true)
         .credentialsNoExpired(true)
@@ -80,8 +85,6 @@ public class UserServiceImpl implements UserService{
         .build();
 
         userRepository.save(newUser);
-
-        return UserMapper.mapUserDto(newUser);
     }
 
     @Override
