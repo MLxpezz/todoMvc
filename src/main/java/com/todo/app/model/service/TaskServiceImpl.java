@@ -14,6 +14,8 @@ import com.todo.app.model.repository.TaskRepository;
 import com.todo.app.model.repository.UserRepository;
 import com.todo.app.model.utils.TaskMapper;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class TaskServiceImpl implements TaskService{
 
@@ -38,51 +40,49 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public TaskDto updateTask(Long id, TaskEntity taskEntity) {
+    public void updateTask(Long id, TaskDto taskDto) {
         Optional<TaskEntity> taskOptional = taskRepository.findById(id);
 
         if(taskOptional.isPresent() && id != null) {
             TaskEntity taskEntity2 = taskOptional.get();
-            taskEntity2.setTitle(taskEntity.getTitle());
-            taskEntity2.setDescription(taskEntity.getDescription());
+            taskEntity2.setTitle(taskDto.getTitle());
+            taskEntity2.setDescription(taskDto.getDescription());
 
             taskRepository.save(taskEntity2);
-
-            return TaskMapper.mapTaskDto(taskEntity2);
         }
-
-        return null;
     }
 
     @Override
-    public String deleteTask(Long id) {
+    public void deleteTask(Long id) {
         Optional<TaskEntity> taskOptional = taskRepository.findById(id);
 
-        if(taskOptional.isPresent() && id != null) {
-            taskRepository.deleteById(id);
-            return "Tarea eliminada correctamente.";
+        if(taskOptional.isPresent()) {
+            System.out.println("hHOLHOLAHOLA");
+            taskRepository.deleteById(id);;
         }
-
-        return "No se encontro la tarea o no existe.";
     }
 
     @Override
-    public TaskDto createTask(TaskDto taskDto) {
+    public void createTask(TaskDto taskDto) {
+    UserEntity userEntity = userRepository.findById(taskDto.getUserId()).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        UserEntity userEntity = userRepository.findById(taskDto.getUserId()).get();
+    TaskEntity taskEntity = TaskEntity.builder()
+            .title(taskDto.getTitle())
+            .description(taskDto.getDescription())
+            .createdAt(LocalDate.now())
+            .isCompleted(false)
+            .userTask(userEntity)
+            .build();
 
-        TaskEntity taskEntity2 = TaskEntity
-        .builder()
-        .title(taskDto.getTitle())
-        .description(taskDto.getDescription())
-        .createdAt(LocalDate.now())
-        .isCompleted(false)
-        .userTask(userEntity)
-        .build();
 
-        taskRepository.save(taskEntity2);
+    taskRepository.save(taskEntity);
+}
 
-        return TaskMapper.mapTaskDto(taskEntity2);
+    @Override
+    public void deleteAllTasks(Long id) {
+        taskRepository.customDeleteTask(id);
     }
+
+
 
 }

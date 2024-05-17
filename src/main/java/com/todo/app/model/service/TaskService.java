@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.todo.app.model.entities.TaskEntity;
 import com.todo.app.model.entities.dto.TaskDto;
 
 @Service
@@ -14,10 +13,12 @@ public interface TaskService {
 
     TaskDto getTask(Long id);
 
-    TaskDto updateTask(Long id, TaskEntity taskEntity);
+    void updateTask(Long id, TaskDto taskDto);
 
-    String deleteTask(Long id);
+    void deleteTask(Long id);
 
-    TaskDto createTask(TaskDto taskDto);
+    void createTask(TaskDto taskDto);
+
+    void deleteAllTasks(Long id);
 
 }

@@ -19,23 +19,24 @@
             class="border-y border-y-color-task"
           ></li>
           <li class="border-y border-y-color-task">Mi cuenta</li>
-          <li class="bg-color-task p-1">
-            <a th:href="@{/users/login}">Cerrar sesion</a>
+          <li class="p-1 rounded-xl hover:bg-color-task border-2 border-color-task">
+            <a th:href="@{/logout}">Cerrar sesion</a>
           </li>
         </ul>
       </nav>
     </header>
 
     <main class="text-center">
-      <button class="bg-color-task p-1 text-white mt-2 text-xs w-36">
-        <a th:href="@{/tasks/create}"> crear tarea </a>
+      <button class=" m-auto flex justify-center bg-color-task p-1 text-white mt-2 text-xs w-36 rounded-xl relative hover:bg-primary-color">
+        <a th:href="@{/tasks/create(id=${userFinal.id})}"> 
+          Crear tarea
+        </a>
       </button>
       <p
         th:if="${userFinal.list.size() > 0}"
         class="text-color-task text-sm mt-5 mb-5"
-      >
-        Tareas completadas: 1
-      </p>
+        th:text="${'Tareas completadas: '}+${countTaskComplete}"
+      ></p>
       <p
         th:if="${userFinal.list.size() == 0}"
         class="text-color-task text-sm mt-5 mb-5"
@@ -55,19 +56,44 @@
         <span class="flex-1 text-color-task bg-white p-1">
           Tareas completadas
         </span>
-        <span class="w-[100px] bg-color-task text-white p-2 mt-2">
+        <a
+          class="w-[100px] bg-color-task text-white p-2 mt-2"
+          th:href="@{/tasks/deleteTasks(id=${userFinal.id})}"
+        >
           Borrar tareas
-        </span>
+        </a>
       </section>
-      <section class="w-4/5 m-auto mt-5 grid grid-cols-2 gap-3">
+      <section class="w-4/5 m-auto mt-5 grid grid-cols-1 gap-3">
         <article
-          class="bg-white flex flex-col text-xs rounded-br-md w-full break-words"
+          class="bg-white flex flex-col text-xs rounded-br-md break-words opacity-50"
           th:if="${userFinal.list.size() > 0}"
           th:each="task : ${userFinal.list}"
         >
-          <span class="bg-color-task text-white font-bold p-1 rounded-tl-md">
-            <p class="font-extrabold text-white" th:text="${task.title}"></p>
-          </span>
+          <div
+            class="bg-color-task text-white flex justify-between items-center gap-4 p-3"
+          >
+            <span class="bg-color-task text-white font-bold p-1 rounded-tl-md">
+              <p class="font-extrabold text-white" th:text="${task.title}"></p>
+            </span>
+            <div>
+              <button type="submit" class="text-white">
+                <a th:href="@{/tasks/delete(id=${task.id})}" class="text-white">
+                  <img class="text-white" src="/bx-task-x.svg" alt="delete" />
+                </a>
+              </button>
+
+              <button>
+                <a th:href="@{/tasks/edit(id=${task.id})}">
+                  <img src="/bx-edit.svg" alt="edit image" />
+                </a>
+              </button>
+              <button>
+                <a th:href="@{/tasks/edit(id=${task.id})}">
+                  <img src="/bx-check.svg" alt="complete" />
+                </a>
+              </button>
+            </div>
+          </div>
           <p
             class="text-color-task text-left p-3"
             th:text="${task.description}"
@@ -75,13 +101,5 @@
         </article>
       </section>
     </main>
-
-    <!-- <form method="post" th:object="${userEntity}" enctype="multipart/form-data">
-        <label for="username">Username</label>
-        <input type="text" placeholder="Username" th:field="${userEntity.username}">
-        <label for="password">Password</label>
-        <input type="password" th:field="${userEntity.password}">
-        <button type="submit">Aceptar</button>
-    </form> -->
   </body>
 </html>
