@@ -21,4 +21,9 @@ public interface TaskService {
 
     void deleteAllTasks(Long id);
 
+    void complete(Long id);
+
+    List<TaskDto> getCompleteTasks();
+
+    List<TaskDto> getUnCompleteTasks();
 }

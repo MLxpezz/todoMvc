@@ -2,8 +2,8 @@ package com.todo.app.model.service;
 
 import java.util.List;
 
-import com.todo.app.model.entities.UserEntity;
 import com.todo.app.model.entities.dto.LoginRequest;
+import com.todo.app.model.entities.dto.UpdateUserRequest;
 import com.todo.app.model.entities.dto.UserDto;
 
 public interface UserService {
@@ -14,9 +14,9 @@ public interface UserService {
 
     UserDto getUserByUsername(String username);
 
-    UserDto updateUser(Long id, UserEntity userEntity);
+    void updateUser(UpdateUserRequest updateUserRequest);
 
-    String deleteUser(Long id);
+    void deleteUser(Long id);
 
     void createUser(LoginRequest loginRequest);
 

@@ -1,15 +1,17 @@
 package com.todo.app.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.todo.app.exceptions.PasswordNotMatchesException;
 import com.todo.app.model.entities.UserEntity;
 import com.todo.app.model.entities.dto.LoginRequest;
+import com.todo.app.model.entities.dto.UpdateUserRequest;
 import com.todo.app.model.entities.dto.UserDto;
 import com.todo.app.model.repository.UserRepository;
 import com.todo.app.model.utils.UserMapper;
@@ -38,37 +40,27 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto updateUser(Long id, UserEntity userEntity) {
-        Optional<UserEntity> usOptional = userRepository.findById(id);
+    public void updateUser(UpdateUserRequest updateUserRequest) {
+        UserEntity userEntity = userRepository
+                                    .findById(updateUserRequest.id())
+                                    .orElseThrow(() -> new UsernameNotFoundException("El usuario no se encontro."));
 
-        if(usOptional.isPresent()) {
-            UserEntity userEntity2 = usOptional.get();
-            userEntity2.setAccountNoBlocked(userEntity.isAccountNoBlocked());
-            userEntity2.setAccountNoExpired(userEntity.isAccountNoExpired());
-            userEntity2.setCredentialsNoExpired(userEntity.isCredentialsNoExpired());
-            userEntity2.setEnabled(userEntity.isEnabled());
-            userEntity2.setPassword(userEntity.getPassword());
-            userEntity2.setUsername(userEntity.getUsername());
-            userEntity2.setTaskList(userEntity.getTaskList());
-
-            userRepository.save(userEntity2);
-
-            return UserMapper.mapUserDto(userEntity2);
+        if(!passwordEncoder.matches(updateUserRequest.currentPassword(), userEntity.getPassword())) {
+            throw new PasswordNotMatchesException("Las contraseñas proporcionadas no coinciden.");
         }
 
-        return null;
+        userEntity.setUsername(updateUserRequest.username());
+        userEntity.setPassword(passwordEncoder.encode(updateUserRequest.newPassword()));
+        userRepository.save(userEntity);
     }
 
     @Override
-    public String deleteUser(Long id) {
+    public void deleteUser(Long id) {
         Optional<UserEntity> userOptional = userRepository.findById(id);
 
         if(id != null && userOptional.isPresent()) {
             userRepository.deleteById(id);
-            return "Usuario eliminado correctamente.";
         }
-
-        return "el usuario no existe o no se encontro.";
     }
 
     @Override
@@ -81,7 +73,6 @@ public class UserServiceImpl implements UserService{
         .accountNoExpired(true)
         .credentialsNoExpired(true)
         .isEnabled(true)
-        .taskList(new ArrayList<>())
         .build();
 
         userRepository.save(newUser);

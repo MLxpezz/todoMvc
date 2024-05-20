@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesion</title>
+    <link rel="stylesheet" type="text/css" href="/output.css" />
+  </head>
+  <body>
+    <header
+      class="font-extrabold text-white text-4xl h-60 w-screen bg-primary-color flex items-center justify-center"
+    >
+      TODO APP
+    </header>
+
+    <form
+      th:action="@{/users/edit}"
+      method="post"
+      enctype="multipart/form-data"
+      th:object="${user}"
+      class="bg-white flex flex-col items-center justify-between text-primary-color w-[80%] h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7"
+    >
+      <h3 class="text-xl mt-5">Editar mi cuenta</h3>
+
+      <input type="hidden" name="id" th:value="*{id}" />
+      <div class="w-[80%] flex flex-col place-content-center mb-16 gap-3 text-xs">
+        <input
+          class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 focus:outline-color-task"
+          type="text"
+          name="username"
+          th:field="*{username}"
+          placeholder="Usuario:"
+        />
+        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-red-400"></p>
+        <input
+          class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 outline-color-task"
+          type="password"
+          name="currentPassword"
+          th:field="*{currentPassword}"
+          placeholder="Contraseña actual:"
+        />
+        <p th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}" class="text-red-400"></p>
+        <p th:text="${error}" class="text-red-400"></p>
+        <input
+          class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 outline-color-task"
+          type="password"
+          name="newPassword"
+          th:field="*{newPassword}"
+          placeholder="Nueva contraseña:"
+        />
+        <p th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" class="text-red-400"></p>
+        <button
+          class="bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
+          type="submit"
+        >
+          Aceptar
+        </button>
+        <button
+        class="bg-primary-color text-white rounded-md p-2 hover:bg-color-task"
+        type="submit"
+      >
+        <a th:href="@{/tasks}">Cancelar</a>
+      </button>
+      </div>
+    </form>
+  </body>
+</html>
