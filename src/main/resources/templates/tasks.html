@@ -18,8 +18,14 @@
             th:text="${'Mi usuario: '}+${userFinal.username}"
             class="border-y border-y-color-task"
           ></li>
-          <li class="border-y border-y-color-task">Mi cuenta</li>
-          <li class="p-1 rounded-xl hover:bg-color-task border-2 border-color-task">
+          <li class="border-y border-y-color-task">
+            <a th:href="@{/users/edit(id=${userFinal.id})}">
+              Mi cuenta
+            </a>
+          </li>
+          <li
+            class="p-1 rounded-xl hover:bg-color-task border-2 border-color-task"
+          >
             <a th:href="@{/logout}">Cerrar sesion</a>
           </li>
         </ul>
@@ -27,10 +33,10 @@
     </header>
 
     <main class="text-center">
-      <button class=" m-auto flex justify-center bg-color-task p-1 text-white mt-2 text-xs w-36 rounded-xl relative hover:bg-primary-color">
-        <a th:href="@{/tasks/create(id=${userFinal.id})}"> 
-          Crear tarea
-        </a>
+      <button
+        class="m-auto flex justify-center bg-color-task p-1 text-white mt-2 text-xs w-36 rounded-xl relative hover:bg-primary-color"
+      >
+        <a th:href="@{/tasks/create(id=${userFinal.id})}"> Crear tarea </a>
       </button>
       <p
         th:if="${userFinal.list.size() > 0}"
@@ -47,15 +53,21 @@
         class="w-4/5 flex flex-wrap text-xs justify-center m-auto"
         th:if="${userFinal.list.size() > 0}"
       >
-        <span class="flex-1 text-color-task bg-white p-1">
+        <a
+          th:href="@{/tasks(complete=false)}"
+          class="flex-1 text-color-task bg-white p-1"
+        >
           Tareas incompletas
-        </span>
-        <span class="flex-1 bg-color-task text-white p-1">
+        </a>
+        <a th:href="@{/tasks}" class="flex-1 bg-color-task text-white p-1">
           Todas las tareas
-        </span>
-        <span class="flex-1 text-color-task bg-white p-1">
+        </a>
+        <a
+          th:href="@{/tasks(complete=true)}"
+          class="flex-1 text-color-task bg-white p-1"
+        >
           Tareas completadas
-        </span>
+        </a>
         <a
           class="w-[100px] bg-color-task text-white p-2 mt-2"
           th:href="@{/tasks/deleteTasks(id=${userFinal.id})}"
@@ -65,9 +77,10 @@
       </section>
       <section class="w-4/5 m-auto mt-5 grid grid-cols-1 gap-3">
         <article
-          class="bg-white flex flex-col text-xs rounded-br-md break-words opacity-50"
+          class="bg-white flex flex-col text-xs rounded-br-md break-words"
           th:if="${userFinal.list.size() > 0}"
-          th:each="task : ${userFinal.list}"
+          th:each="task : ${tasks}"
+          th:style="${task.isCompleted} ? 'opacity: 0.5' : ''"
         >
           <div
             class="bg-color-task text-white flex justify-between items-center gap-4 p-3"
@@ -87,8 +100,8 @@
                   <img src="/bx-edit.svg" alt="edit image" />
                 </a>
               </button>
-              <button>
-                <a th:href="@{/tasks/edit(id=${task.id})}">
+              <button th:if="${!task.isCompleted}">
+                <a th:href="@{/tasks/complete(id=${task.id})}">
                   <img src="/bx-check.svg" alt="complete" />
                 </a>
               </button>

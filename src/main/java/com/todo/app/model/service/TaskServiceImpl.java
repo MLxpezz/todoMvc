@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.todo.app.model.entities.TaskEntity;
@@ -27,8 +28,11 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public List<TaskDto> getTasks() {
-        List<TaskEntity> taskEntities = taskRepository.findAll();
+        List<TaskEntity> taskEntities = taskRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
+        taskEntities.forEach(task -> {
+            System.out.println("ID: " + task.getId());
+        });
         return TaskMapper.mapListDtos(taskEntities);
     }
 
@@ -81,6 +85,28 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public void deleteAllTasks(Long id) {
         taskRepository.customDeleteTask(id);
+    }
+
+    @Override
+    public void complete(Long id) {
+        Optional<TaskEntity> tOptional = taskRepository.findById(id);
+
+        if(tOptional.isPresent()) {
+            TaskEntity taskEntity = tOptional.get();
+            taskEntity.setCompleted(true);
+
+            taskRepository.save(taskEntity);
+        }
+    }
+
+    @Override
+    public List<TaskDto> getCompleteTasks() {
+       return TaskMapper.mapListDtos(taskRepository.completeTasks());
+    }
+
+    @Override
+    public List<TaskDto> getUnCompleteTasks() {
+        return TaskMapper.mapListDtos(taskRepository.uncompleteTasks());
     }
 
 

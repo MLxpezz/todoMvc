@@ -1,5 +1,7 @@
 package com.todo.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,7 +36,13 @@ public class TasksController {
 
     @GetMapping({"/", ""})
     public String getTasks(Model model) {
-        int taskComplete = 0;
+
+        if(userProvider() == null) {
+            return "redirect:/users/login";
+        }
+
+        int taskComplete  = (int) taskService.getTasks().stream().filter(task -> task.isCompleted()).count();
+
         model.addAttribute("countTaskComplete", taskComplete);
         return "tasks";
     }
@@ -108,6 +116,24 @@ public class TasksController {
         taskService.deleteAllTasks(id);
         return "redirect:/tasks";
     }
+
+    @GetMapping("/complete")
+    public String completeTask(@RequestParam Long id) {
+        taskService.complete(id);
+        return "redirect:/tasks";
+    }
+
+    @ModelAttribute("tasks")
+    public List<TaskDto> tasksProvider(@RequestParam(name = "complete", required = false) Boolean complete) {
+
+        if(complete != null && complete) {
+            return taskService.getCompleteTasks();
+        } else if(complete != null && !complete) {
+            return taskService.getUnCompleteTasks();
+        }
+
+        return userProvider().getList();
+    }
     
     
     @ModelAttribute("userFinal")
@@ -125,7 +151,7 @@ public class TasksController {
             } 
 
         } catch (Exception e) {
-            System.out.println("AIUDA: " + e.getMessage());
+            System.out.println("Error al recuperar el usuario autenticado: " + e.getMessage());
         }
 
         return userDto;
