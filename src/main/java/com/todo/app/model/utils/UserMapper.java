@@ -13,6 +13,7 @@ public class UserMapper {
         .builder()
         .id(userEntity.getId())
         .username(userEntity.getUsername())
+        .email(userEntity.getEmail())
         .list(userEntity.getTaskList() == null ? new ArrayList<>() : TaskMapper.mapListDtos(userEntity.getTaskList()))
         .build();
     }
@@ -23,6 +24,7 @@ public class UserMapper {
                 .builder()
                 .id(user.getId())
                 .username(user.getUsername())
+                .email(user.getEmail())
                 .list(user.getTaskList() == null ? new ArrayList<>() : TaskMapper.mapListDtos(user.getTaskList()))
                 .build())
         .toList();

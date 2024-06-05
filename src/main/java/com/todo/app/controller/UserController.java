@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/register")
     public String createUser(Model model) {
-        model.addAttribute("loginRequest", new LoginRequest(null, null));
+        model.addAttribute("loginRequest", new LoginRequest(null, null, null));
         return "register";
     }
 
@@ -41,8 +41,10 @@ public class UserController {
         try {
             userDto = userService.getUserByUsername(loginRequest.username());
 
-            if(loginRequest.username() != null && userDto.getUsername() != null && loginRequest.username().equals(userDto.getUsername())) {
-                model.addAttribute("message", "El usuario ya existe.");
+            if(loginRequest.username() != null && userDto.getUsername() != null && loginRequest.username().equals(userDto.getUsername())
+                || loginRequest.email() != null && userDto.getEmail() != null && loginRequest.email().equals(userDto.getEmail())) {
+                model.addAttribute("messageUsername", "El usuario o correo ya existe.");
+                model.addAttribute("messageEmail", "El correo ya existe.");
                 return "register";
             }
 
@@ -56,8 +58,14 @@ public class UserController {
 
         userService.createUser(loginRequest);
 
-        return "redirect:/users/login";
+        return "redirect:/users/confirmEmail";
     }
+
+    @GetMapping("/confirmEmail")
+    public String getMethodName() {
+        return "confirmEmail";
+    }
+    
 
     @GetMapping({"/login", "/"})
     public String loginForm() {
@@ -112,5 +120,19 @@ public class UserController {
 
         return "redirect:/tasks";
     }
+
+    @GetMapping("/confirm")
+    public String confirmAccount(@RequestParam Long id) {
+
+        try {
+            userService.setIsEnabled(id);
+            System.out.println("cuenta confirmada");
+        } catch (Exception e) {
+            System.out.println("Ocurrio un error al confirmar la cuenta: " + e.getMessage());
+        }
+
+        return "redirect:/users/login?isConfirmed";
+    }
+    
     
 }

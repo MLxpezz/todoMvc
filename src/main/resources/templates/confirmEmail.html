@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesion</title>
+    <link rel="stylesheet" type="text/css" href="/output.css" />
+  </head>
+  <body>
+    <header
+      class="font-extrabold text-white text-4xl h-60 w-screen bg-primary-color flex items-center justify-center"
+    >
+      TODO APP
+    </header>
+
+    <section class="w-[80%] m-auto text-center">
+      <p class="mt-4 text-primary-color text-xl text-center">
+        Se te ha enviado un correo de confirmacion, porfavor confirme su cuenta
+        antes de iniciar sesion.
+      </p>
+      <a
+        th:href="@{/users/login}"
+        class="font-extrabold text-primary-color underline"
+        >Ir a iniciar sesion</a
+      >
+    </section>
+  </body>
+</html>

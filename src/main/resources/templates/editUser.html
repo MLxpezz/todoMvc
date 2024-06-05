@@ -40,7 +40,7 @@
           placeholder="Contraseña actual:"
         />
         <p th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}" class="text-red-400"></p>
-        <p th:text="${error}" class="text-red-400"></p>
+        <p th:if="${error != null}" th:text="${error}" class="text-red-400"></p>
         <input
           class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 outline-color-task"
           type="password"

@@ -30,8 +30,17 @@
           name="username"
           th:field="*{username}"
         />
-        <p th:text="${message}" class="text-red-400"></p>
+        <p th:text="${messageUsername}" class="text-red-400"></p>
         <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-red-400"></p>
+        <input
+          class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 focus:outline-color-task"
+          type="text"
+          placeholder="Correo:"
+          name="email"
+          th:field="*{email}"
+        />
+        <p th:text="${messageEmail}" class="text-red-400"></p>
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-400"></p>
         <input
           class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 outline-color-task"
           type="password"

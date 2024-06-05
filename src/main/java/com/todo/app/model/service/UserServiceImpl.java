@@ -25,6 +25,9 @@ public class UserServiceImpl implements UserService{
     @Autowired 
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MailService mailService;
+
     @Override
     public List<UserDto> getUsers() {
         List<UserEntity> userEntities = userRepository.findAll();
@@ -68,14 +71,16 @@ public class UserServiceImpl implements UserService{
         UserEntity newUser = UserEntity
         .builder()
         .username(loginRequest.username())
+        .email(loginRequest.email())
         .password(passwordEncoder.encode(loginRequest.password()))
         .accountNoBlocked(true)
         .accountNoExpired(true)
         .credentialsNoExpired(true)
-        .isEnabled(true)
+        .isEnabled(false)
         .build();
 
         userRepository.save(newUser);
+        mailService.sendMailConfirmAccount(newUser.getEmail(), newUser.getId());
     }
 
     @Override
@@ -84,6 +89,18 @@ public class UserServiceImpl implements UserService{
 
         return UserMapper.mapUserDto(userEntity);
     }
+
+    @Override
+    public void setIsEnabled(Long id) {
+        if(id != null) {
+            UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("El usuario no se encontro"));
+
+            userEntity.setEnabled(true);
+            userRepository.save(userEntity);
+        }
+    }
+
+    
 
 
 
