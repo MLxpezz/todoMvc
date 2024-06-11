@@ -12,19 +12,19 @@
     >
       <p class="mt-9 mb-7 font-extrabold">TODO APP</p>
 
-      <nav class="text-xs text-center">
+      <nav class="text-xs text-center md:text-[16px]">
         <ul class="flex flex-col gap-3">
           <li
             th:text="${'Mi usuario: '}+${userFinal.username}"
             class="border-y border-y-color-task"
           ></li>
-          <li class="border-y border-y-color-task">
+          <li class="border-y border-y-color-task md:p-1">
             <a th:href="@{/users/edit(id=${userFinal.id})}">
               Mi cuenta
             </a>
           </li>
           <li
-            class="p-1 rounded-xl hover:bg-color-task border-2 border-color-task"
+            class="p-1 rounded-xl hover:bg-color-task border-2 border-color-task md:p-2"
           >
             <a th:href="@{/logout}">Cerrar sesion</a>
           </li>
@@ -32,58 +32,58 @@
       </nav>
     </header>
 
-    <main class="text-center">
+    <main class="text-center md:text-[16px]">
       <button
-        class="m-auto flex justify-center bg-color-task p-1 text-white mt-2 text-xs w-36 rounded-xl relative hover:bg-primary-color"
+        class="w-48 m-auto flex justify-center bg-color-task p-1 text-white mt-2 text-xs rounded-xl relative hover:bg-primary-color md:p-2 md:text-[16px]"
       >
         <a th:href="@{/tasks/create(id=${userFinal.id})}"> Crear tarea </a>
       </button>
       <p
         th:if="${userFinal.list.size() > 0}"
-        class="text-color-task text-sm mt-5 mb-5"
+        class="text-color-task text-sm mt-5 mb-5 md:text-[16px]"
         th:text="${'Tareas completadas: '}+${countTaskComplete}"
       ></p>
       <p
         th:if="${userFinal.list.size() == 0}"
-        class="text-color-task text-sm mt-5 mb-5"
+        class="text-color-task text-sm mt-5 mb-5 md:text-[16px]"
       >
         Aun no existe ninguna tarea :C
       </p>
       <section
-        class="w-4/5 flex flex-wrap text-xs justify-center m-auto"
+        class="w-4/5 flex flex-wrap text-xs justify-center m-auto md:text-[16px] lg:w-[70%] xl:w-[50%]"
         th:if="${userFinal.list.size() > 0}"
       >
         <a
           th:href="@{/tasks(complete=false)}"
-          class="flex-1 text-color-task bg-white p-1"
+          class="flex-1 text-color-task bg-white p-1 sm:flex-none sm:w-[30%] md:flex-none md:p-2 md:pl-4 md:pr-4 lg:w-[30%]"
         >
           Tareas incompletas
         </a>
-        <a th:href="@{/tasks}" class="flex-1 bg-color-task text-white p-1">
+        <a th:href="@{/tasks}" class="flex-1 bg-color-task text-white p-1 sm:w-[30%] sm:flex-none md:flex-none md:p-2 md:pl-4 md:pr-4 lg:w-[30%]">
           Todas las tareas
         </a>
         <a
           th:href="@{/tasks(complete=true)}"
-          class="flex-1 text-color-task bg-white p-1"
+          class="flex-1 text-color-task bg-white p-1 md:flex-none sm:w-[30%] md:p-2 sm:flex-none md:pl-4 md:pr-4 lg:w-[30%]"
         >
           Tareas completadas
         </a>
         <a
-          class="w-[100px] bg-color-task text-white p-2 mt-2"
+          class="w-[100px] bg-color-task text-white p-2 mt-2 sm:w-[30%] md:w-[185px] lg:w-[30%]"
           th:href="@{/tasks/deleteTasks(id=${userFinal.id})}"
         >
           Borrar tareas
         </a>
       </section>
-      <section class="w-4/5 m-auto mt-5 grid grid-cols-1 gap-3">
+      <section class="w-4/5 m-auto mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <article
-          class="bg-white flex flex-col text-xs rounded-br-md break-words"
+          class="bg-white flex flex-col text-xs rounded-br-md break-words rounded-t-md shadow-color-task shadow-md md:text-[16px]"
           th:if="${userFinal.list.size() > 0}"
           th:each="task : ${tasks}"
           th:style="${task.isCompleted} ? 'opacity: 0.5' : ''"
         >
           <div
-            class="bg-color-task text-white flex justify-between items-center gap-4 p-3"
+            class="rounded-tl-md bg-color-task text-white flex justify-between items-center gap-4 p-3"
           >
             <span class="bg-color-task text-white font-bold p-1 rounded-tl-md">
               <p class="font-extrabold text-white" th:text="${task.title}"></p>

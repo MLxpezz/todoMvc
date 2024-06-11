@@ -16,20 +16,20 @@
     <form
       th:action="@{/users/login}"
       method="post"
-      class="bg-white flex flex-col items-center justify-between text-primary-color w-[80%] h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7"
+      class="w-[80%] bg-white flex flex-col items-center justify-between text-primary-color h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7 phone tablet laptop pc"
     >
-      <h3 class="text-xl mt-5">Iniciar Sesion</h3>
+      <h3 class="text-xl mt-5 md:text-[28px]">Iniciar Sesion</h3>
 
-      <p th:if="${param.error}" class="text-red-400 text-xs">
+      <p th:if="${param.error}" class="text-red-400 text-xs md:text-[18px] xl:text-[18px]">
         Usuario o contraseña incorrectos.</p>
-        <p th:if="${param.accountNotConfirmed}" class="text-red-400 text-xs">
+        <p th:if="${param.accountNotConfirmed}" class="text-red-400 text-xs md:text-[18px] xl:text-[18px]">
         Tu cuenta aun no esta confirmada.</p>
-      <p th:if="${param.logout}" class="text-red-400 text-xs">
+      <p th:if="${param.logout}" class="text-red-400 text-xs md:text-[18px] xl:text-[18px]">
         Has cerrado sesion correctamente.</p>
-        <p th:if="${param.isConfirmed}" class="text-green-700 text-xs">
+        <p th:if="${param.isConfirmed}" class="text-green-700 text-xs md:text-[18px] xl:text-[18px]">
           Tu cuenta ha sido confirmada con exito.</p>
 
-      <div class="w-[80%] flex flex-col place-content-center mb-16 gap-3 text-xs">
+      <div class="w-[80%] flex flex-col place-content-center mb-16 gap-3 text-xs md:text-[16px]">
         <input
           class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 focus:outline-color-task"
           type="text"
@@ -49,7 +49,7 @@
           Aceptar
         </button>
         <div>
-          <p class="mb-2">¿Olvidaste tu contraseña?</p>
+          <!-- <p class="mb-2">¿Olvidaste tu contraseña?</p> -->
           <p>¿No tienes cuenta? <strong><a th:href="@{/users/register}">Registrate!</a></strong></p>
         </div>
       </div>

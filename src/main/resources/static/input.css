@@ -14,3 +14,21 @@
 body {
     background-color: #E7EDFF;
 }
+
+@screen md {
+    .tablet {
+        @apply w-[60%] h-[500px];
+    }
+}
+
+@screen lg {
+    .laptop {
+        @apply w-[45%];
+    }
+}
+
+@screen xl {
+    .pc {
+        @apply w-[30%];
+    }
+}
