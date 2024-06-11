@@ -36,11 +36,6 @@ public class TasksController {
 
     @GetMapping({"/", ""})
     public String getTasks(Model model) {
-
-        if(userProvider() == null) {
-            return "redirect:/users/login";
-        }
-
         int taskComplete  = (int) taskService.getTasks().stream().filter(task -> task.isCompleted()).count();
 
         model.addAttribute("countTaskComplete", taskComplete);

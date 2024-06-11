@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesion</title>
+    <link rel="stylesheet" type="text/css" href="/output.css" />
+  </head>
+  <body style="background-color: #E7EDFF; padding-bottom: 12px;">
+    <p
+      style="text-align: center; background-color: #769cff; height: auto; font-weight: 800; color: white; font-size: 40px;"
+    >
+        TODO APP
+    </p>
+    <h3
+      th:text="${'Bienvenido! Gracias por registrarte.'}"
+      style="font-weight: 800; color: #769cff; text-align: center; margin-top: 20px; margin-bottom: 20px;"
+    ></h3>
+    <p
+      style="color: #769cff; text-align: center; font-size: 18px; margin-top: 20px; margin-bottom: 20px;"
+    >
+      Porfavor, has clic en el siguiente boton para confirmar tu cuenta.
+    </p>
+
+    <p
+      style="color: white; padding: 8px; border-radius: 8px; margin: auto; text-align: center;"
+    >
+      <a th:href="${confirmUrl}" style="background-color: #769cff; padding: 8px; border-radius: 8px; text-decoration: none; color: white;">Confirmar cuenta</a>
+    </p>
+  </body>
+</html>

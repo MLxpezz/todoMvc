@@ -18,7 +18,7 @@
       method="post"
       enctype="multipart/form-data"
       th:object="${user}"
-      class="bg-white flex flex-col items-center justify-between text-primary-color w-[80%] h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7"
+      class="w-[80%] bg-white flex flex-col items-center justify-between text-primary-color h-[430px] border border-primary-color rounded-lg m-auto -translate-y-7 phone tablet laptop pc"
     >
       <h3 class="text-xl mt-5">Editar mi cuenta</h3>
 
@@ -40,7 +40,7 @@
           placeholder="Contraseña actual:"
         />
         <p th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}" class="text-red-400"></p>
-        <p th:text="${error}" class="text-red-400"></p>
+        <p th:if="${error != null}" th:text="${error}" class="text-red-400"></p>
         <input
           class="bg-bg-inputs rounded-md placeholder:text-primary-color placeholder:p-0 p-2 outline-color-task"
           type="password"

@@ -20,4 +20,5 @@ public interface UserService {
 
     void createUser(LoginRequest loginRequest);
 
+    void setIsEnabled(Long id);
 }
