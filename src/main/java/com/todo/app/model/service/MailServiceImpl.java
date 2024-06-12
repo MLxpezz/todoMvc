@@ -22,6 +22,8 @@ public class MailServiceImpl implements MailService  {
     @Autowired
     private SpringTemplateEngine springTemplateEngine;
 
+    private final String emailAddress = System.getenv("EMAIL_ADDRESS");
+
     public void sendMailConfirmAccount(String email, Long id) {
         log.info("Enviando mail a {} con id {}", email, id);
 
@@ -29,7 +31,7 @@ public class MailServiceImpl implements MailService  {
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom("mauricio_lopez_098@hotmail.com");
+            helper.setFrom(emailAddress);
             helper.setTo(email);
             helper.setSubject("Confirmacion de cuenta");
 
