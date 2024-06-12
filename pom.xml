@@ -11,8 +11,8 @@
 	<groupId>com.todo</groupId>
 	<artifactId>app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Todo app</name>
-	<description>Todo app with Spring MVC and SpringSecurity JWT</description>
+	<name>todo_app</name>
+	<description>Todo app with Spring MVC and SpringSecurity</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
